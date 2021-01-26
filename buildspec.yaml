@@ -10,7 +10,7 @@ phases:
       # Build the project
       - mvn install
       # create and upload a deployment package
-      - sam package --template-file sam-template.yaml --s3-bucket cw-lms --output-template-file sam-template-output.yaml
+      - aws cloudformation package --template-file sam-template.yaml --s3-bucket cw-lms --output-template-file sam-template-output.yaml
   post_build:
     commands:
       - echo Build completed on `date`
