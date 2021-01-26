@@ -22,7 +22,7 @@ public class DepartmentRequestHandler {
     private DepartmentDao departmentDao;
 
     public DepartmentDao getDepartmentDao() {
-        if(this.departmentDao == null) {
+        if (this.departmentDao == null) {
             this.departmentDao = new DepartmentDaoImpl();
         }
         return this.departmentDao;
