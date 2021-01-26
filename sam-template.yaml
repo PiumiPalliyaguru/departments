@@ -103,7 +103,7 @@ Resources:
     Properties:
       FunctionName:
         Fn::Sub: department-app-update-department-${StageName}
-      CodeUri: s3://cw-lms/department-ci-cd/
+      CodeUri: 's3://cw-lms/function.zip'
       Handler: org.example.app.handler.DepartmentRequestHandler::updateDepartment
       Policies:
         DynamoDBReadPolicy:
@@ -142,7 +142,7 @@ DepartmentTable:
   Type: AWS::Serverless::SimpleTable
   Properties:
     TableName:
-      Fn::Sub: department-app-department
+      Fn::Sub: departments
     PrimaryKey:
       Name: id
       Type: String
