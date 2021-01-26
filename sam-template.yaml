@@ -1,0 +1,139 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Implementation of a REST API for an department app.
+
+Globals:
+  Function:
+    Runtime: java8
+    Timeout: 60
+    MemorySize: 256
+
+Parameters:
+  StageName:
+    Type: String
+    Default: dev
+    Description: The Lambda Function Stage
+
+Resources:
+
+  RestApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name:
+        Fn::Sub: department-app-api-${StageName}
+      StageName:
+        Ref: StageName
+
+  ListDepartmentsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName:
+        Fn::Sub: department-app-list-department-${StageName}
+      CodeUri: target/departments-1.0-SNAPSHOT.jar
+      Handler: org.example.app.handler.DepartmentRequestHandler::listDepartments
+      Policies:
+        DynamoDBReadPolicy:
+          TableName:
+            Ref: DepartmentTable
+      Events:
+        List:
+          Type: Api
+          Properties:
+            Path: /departments
+            Method: GET
+            RestApiId:
+              Ref: RestApi
+
+  CreateDepartmentFunction:
+    Type: AWS::Serverless::Function
+      Properties:
+        FunctionName:
+          Fn::Sub: department-app-create-department-${StageName}
+        CodeUri: target/departments-1.0-SNAPSHOT.jar
+        Handler: org.example.app.handler.DepartmentRequestHandler::createDepartment
+        Policies:
+          DynamoDBReadPolicy:
+            TableName:
+              Ref: DepartmentTable
+        Events:
+          List:
+            Type: Api
+            Properties:
+              Path: /departments
+              Method: POST
+              RestApiId:
+                Ref: RestApi
+
+  GetDepartmentFunction:
+    Type: AWS::Serverless::Function
+      Properties:
+        FunctionName:
+          Fn::Sub: department-app-get-department-${StageName}
+        CodeUri: target/departments-1.0-SNAPSHOT.jar
+        Handler: org.example.app.handler.DepartmentRequestHandler::getDepartment
+        Policies:
+          DynamoDBReadPolicy:
+            TableName:
+              Ref: DepartmentTable
+        Events:
+          List:
+            Type: Api
+            Properties:
+              Path: /departments/{id}
+              Method: GET
+              RestApiId:
+                Ref: RestApi
+
+  UpdateDepartmentFunction:
+    Type: AWS::Serverless::Function
+      Properties:
+        FunctionName:
+          Fn::Sub: department-app-update-department-${StageName}
+        CodeUri: target/departments-1.0-SNAPSHOT.jar
+        Handler: org.example.app.handler.DepartmentRequestHandler::updateDepartment
+        Policies:
+          DynamoDBReadPolicy:
+            TableName:
+              Ref: DepartmentTable
+        Events:
+          List:
+            Type: Api
+            Properties:
+              Path: /departments/{id}
+              Method: PUT
+              RestApiId:
+                Ref: RestApi
+
+  DeleteDepartmentFunction:
+    Type: AWS::Serverless::Function
+      Properties:
+        FunctionName:
+          Fn::Sub: department-app-delete-department-${StageName}
+        CodeUri: target/departments-1.0-SNAPSHOT.jar
+        Handler: org.example.app.handler.DepartmentRequestHandler::deleteDepartment
+        Policies:
+          DynamoDBReadPolicy:
+            TableName:
+              Ref: DepartmentTable
+        Events:
+          List:
+            Type: Api
+            Properties:
+              Path: /departments/{id}
+              Method: DELETE
+              RestApiId:
+                Ref: RestApi
+
+DepartmentTable:
+  Type: AWS::Serverless::SimpleTable
+  Properties:
+    TableName:
+      Fn::Sub: department-app-department
+    PrimaryKey:
+      Name: id
+      Type: String
+    ProvisionedThroughput:
+      ReadCapacityUnits: 1
+      WriteCapacityUnits: 1
+

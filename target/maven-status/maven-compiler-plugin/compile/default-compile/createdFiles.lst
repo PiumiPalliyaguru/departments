@@ -1,0 +1,4 @@
+org\example\app\dao\DepartmentDao.class
+org\example\app\dao\DepartmentDaoImpl.class
+org\example\app\model\Department.class
+org\example\app\handler\DepartmentRequestHandler.class
