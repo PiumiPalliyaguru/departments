@@ -25,6 +25,19 @@ Resources:
       StageName:
         Ref: StageName
 
+  testLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: org.example.app.handler.DepartmentRequestHandler::testLambda
+      Events:
+        List:
+          Type: Api
+          Properties:
+            Path: /
+            Method: GET
+            RestApiId:
+              Ref: RestApi
+
   ListDepartmentsFunction:
     Type: AWS::Serverless::Function
     Properties:
