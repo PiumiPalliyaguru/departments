@@ -1,16 +1,19 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      java: corretto8
   build:
     commands:
+      - echo Build started on `date`
       # Build the project
-      - mvn package
+      - mvn install
       # create and upload a deployment package
-      - aws cloudformation package --template-file sam-template.yaml --s3-bucket $S3_BUCKET --output-template-file sam-template-output.yaml
-
-cache:
-  paths:
-    - '/root/.m2/**/*'
+      - sam package --template-file sam-template.yaml --s3-bucket cw-lms --output-template-file sam-template-output.yaml
+  post_build:
+    commands:
+      - echo Build completed on `date`
 
 artifacts:
   files:
