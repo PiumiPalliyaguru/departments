@@ -43,7 +43,7 @@ Resources:
     Properties:
       FunctionName:
         Fn::Sub: department-app-list-department-${StageName}
-      CodeUri: s3://cw-lms/department-ci-cd/
+      CodeUri: target/departments-1.0-SNAPSHOT.jar
       Handler: org.example.app.handler.DepartmentRequestHandler::listDepartments
       Policies:
         DynamoDBReadPolicy:
@@ -63,7 +63,7 @@ Resources:
     Properties:
       FunctionName:
         Fn::Sub: department-app-create-department-${StageName}
-      CodeUri: s3://cw-lms/department-ci-cd/
+      CodeUri: target/departments-1.0-SNAPSHOT.jar
       Handler: org.example.app.handler.DepartmentRequestHandler::createDepartment
       Policies:
         DynamoDBReadPolicy:
@@ -83,7 +83,7 @@ Resources:
     Properties:
       FunctionName:
         Fn::Sub: department-app-get-department-${StageName}
-      CodeUri: s3://cw-lms/department-ci-cd/
+      CodeUri: target/departments-1.0-SNAPSHOT.jar
       Handler: org.example.app.handler.DepartmentRequestHandler::getDepartment
       Policies:
         DynamoDBReadPolicy:
@@ -103,7 +103,7 @@ Resources:
     Properties:
       FunctionName:
         Fn::Sub: department-app-update-department-${StageName}
-      CodeUri: 's3://cw-lms/function.zip'
+      CodeUri: target/departments-1.0-SNAPSHOT.jar
       Handler: org.example.app.handler.DepartmentRequestHandler::updateDepartment
       Policies:
         DynamoDBReadPolicy:
@@ -123,7 +123,7 @@ Resources:
     Properties:
       FunctionName:
         Fn::Sub: department-app-delete-department-${StageName}
-      CodeUri: s3://cw-lms/department-ci-cd/
+      CodeUri: target/departments-1.0-SNAPSHOT.jar
       Handler: org.example.app.handler.DepartmentRequestHandler::deleteDepartment
       Policies:
         DynamoDBReadPolicy:
